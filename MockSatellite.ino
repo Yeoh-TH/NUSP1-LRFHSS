@@ -36,7 +36,6 @@ String msg;
 String out;
 
 void setup() {
-  // put your setup code here, to run once:
   VextON();
   Serial.begin(115200);
   Serial.println("Starting up");
@@ -66,6 +65,8 @@ void loop() {
     
     radio.transmit(msg);
 
+    // Start receive operation after sending out if the command is LORA. Else the module will continue transmission mode.
+    // As shown, it must be explicitly stated when the module is in transmission, receiving or sleep mode
     if(msg == "LORA"){
     int state = radio.receive(out);
     if(state==RADIOLIB_ERR_NONE){
