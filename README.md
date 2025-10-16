@@ -1,7 +1,9 @@
 # NUSP1-LRFHSS Introduction of code firmware and usage
+<img width="250" height="250" alt="image" align=”left”  src="https://github.com/user-attachments/assets/9c87c69d-6ad7-4aee-be0a-95b3782a0c44" />
+
 Successful implementation of LRFHSS communication with the Semtech LRFHSS gateway V2. This sketch shows a mock Ground station and mock satellite system, where in the serial monitor of the satellite, if a command is sent by the user, the exact message is transmitted and processed in the ground station. All done on a Heltech Cubecell AB-02S module.
 
-The process has been streamlined through the integration of multiple libraries in the same firmware, with code written for processing transmissions and sending and receiving through the display and the serial monitor for the ground station and mock satellite program respectivly in the Arduino IDE.
+The process has been streamlined through the integration of multiple libraries in the same firmware. Code has been written for processing transmissions and sending and receiving data through the display and the serial monitor for the ground station and mock satellite program, respectively, in the Arduino IDE.
 
 # Variables to look out for
 The main variable to tweak if needed, are the following:
@@ -36,11 +38,11 @@ These are the available bandwidths and coding rates for the LRFHSS function (cur
 gnerally the smaller the bandwidth and coding rate, the greater signal strength of the received packet.
 
 # GPS
-The GPS module on this module is the Air530ZClass. Based on experimentation, this module will be able to receive GPS data in an open football field in around 2 to 3 minutes of waiting or less. Thus, it requires little fuss to operate and receive GPS. The following GPS data can be interfaced:
+The GPS module on this module is the Air530ZClass. Based on experimentation, this module will be able to receive GPS data in an open football field in around 2 to 3 minutes or less. Thus, it requires little fuss to operate and receive GPS. The following GPS data can be interfaced:
 
 ```
 Air530ZClass GPS;
-//This is a mathematical function to return any variable with a certain number of decimal points by request of the user. This is needed for //the precision of the GPS data, which is around 4 decimal points, even though Arduino rounds it to a whole number
+//This is a mathematical function to return any variable with a certain number of decimal points by the request of the user. This is needed for the precision of the GPS data, which is around 4 decimal points, even though Arduino rounds it to a whole number
 int fracPart(double val, int n){
   return (int)((val - (int)(val))*pow(10,n));
 }
