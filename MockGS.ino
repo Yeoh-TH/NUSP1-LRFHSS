@@ -23,6 +23,7 @@ volatile bool operationDone = false;
 // flag to indicate that a packet was received
 volatile bool receivedFlag = false;
 
+//This is used to get coordinates to 4 Decimal places from the GPS module on the mock Ground Station module
 int fracPart(double val, int n)
 {
   return (int)((val - (int)(val))*pow(10,n));
@@ -45,15 +46,16 @@ void VextOFF(void) //Vext default OFF
   pinMode(Vext,OUTPUT);
   digitalWrite(Vext, HIGH);
 }
-
+// Global public variable for easy setting of frequency in case of multiple functions wishing to access this variable. 
+// For instance, if a doppler effect calculation function wishes to determine offset needed, or if another function wishes to access the current frequency 
 float currentFreq = 923.0;
 
 void setup() {
-  // put your setup code here, to run once:
   VextON();
   Serial.begin(115200);
   Serial.print(F("[TH Device] Starting up..."));
 
+  // Starting the display mechanism and GPS, display.display() is used to set the cache of the build-in OLED display
   display.init();
   display.clear();
   display.display();
@@ -62,10 +64,14 @@ void setup() {
   display.drawString(64, 32-16/2, "GPS Initing");
   display.display();
   GPS.begin();
-
+  
   delay(1000);
 
+  
+  // Order of variables: Frequency, bandwidth, spreading factor, coding rate, sync word and power (max is 22) other varialbes onward include preamble length [not needed ]
   int state = radio.begin(currentFreq, 250.0, 12,7, RADIOLIB_SX126X_SYNC_WORD_PRIVATE, 20);
+  
+  
   radio.setFrequency(currentFreq);
   radio.setCurrentLimit(140);
   
@@ -80,12 +86,11 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   while (GPS.available() > 0)
     {
       GPS.encode(GPS.read());
     }
-
+  
   if(receivedFlag){
     receivedFlag = false;
 
